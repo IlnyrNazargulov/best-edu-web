@@ -12,7 +12,9 @@ jobs:
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
-    - run: npm ci
-    - run: npm run build --if-present
-    - name: Transfer dist to /var/www/.
-    - run: mv dist/* /var/www/best-edu-web/html/
+    - name: Install dependencies.
+      run: npm ci
+    - name: Build project.
+      run: npm run build --if-present
+    - name: Transfer dist/* to /var/www/.
+      run: mv dist/* /var/www/best-edu-web/html/
