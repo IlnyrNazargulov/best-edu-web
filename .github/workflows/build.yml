@@ -18,5 +18,7 @@ jobs:
       run: npm ci
     - name: Build project.
       run: npm run build --if-present
-    - name: Transfer dist/* to /var/www/.
+    - name: Remove old files.
+      run: rm -rf /var/www/best-edu-web/html/*
+    - name: Transfer dist/* to /var/www/html/.
       run: mv dist/* /var/www/best-edu-web/html/
