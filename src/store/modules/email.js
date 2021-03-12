@@ -9,7 +9,7 @@ import emailApi from "@/utils/EmailApi";
 
 const state = {
   emailToken: "",
-  status: "",
+  status: EmailStatus.ENTER_EMAIL,
   errorMessage: "",
   timeout: 0,
 };
