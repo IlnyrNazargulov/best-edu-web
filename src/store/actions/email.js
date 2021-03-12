@@ -1,0 +1,13 @@
+export const SEND_CODE = "SEND_CODE";
+export const VERIFY_CODE = "VERIFY_CODE";
+export const CHANGE_EMAIL = "CHANGE_EMAIL";
+
+export const EmailStatus = {
+  SENDING: "SENDING",
+  SEND: "SEND",
+  SEND_FAIL: "SEND_FAIL",
+  VERIFYING: "VERIFYING",
+  VERIFY: "VERIFY",
+  VERIFY_ERROR: "VERIFY_ERROR",
+  ENTER_EMAIL: "ENTER_EMAIL",
+};
