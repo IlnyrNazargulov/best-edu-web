@@ -1,14 +1,9 @@
-/* eslint-disable promise/param-names */
-import {
-  SEND_CODE,
-  VERIFY_CODE,
-  CHANGE_EMAIL,
-  EmailStatus,
-} from "@/store/actions/email";
-import emailApi from "@/utils/EmailApi";
+import { SEND_CODE, VERIFY_CODE, CHANGE_EMAIL } from "@/store/actions.type";
+import { RequestCodeService } from "@/utils/request.code.service";
+import { EmailStatus } from "@/store/model/EmailStatus";
+import { JwtService } from "@/utils/jwt.service";
 
 const state = {
-  emailToken: "",
   status: EmailStatus.ENTER_EMAIL,
   errorMessage: "",
   timeout: 0,
@@ -27,39 +22,28 @@ const getters = {
 };
 
 const actions = {
-  [SEND_CODE]: ({ commit, dispatch }, email) => {
-    return new Promise((resolve, reject) => {
-      commit(EmailStatus.SENDING);
-      emailApi.sendCode(email).then((resp) => {
-        console.log(resp.isSuccess);
-        if (!resp.isSuccess) {
-          commit(EmailStatus.SEND_FAIL, resp.data.timeout);
-        } else {
-          commit(EmailStatus.SEND, resp.data.timeout);
-        }
-        resolve();
-      });
-    });
+  async [SEND_CODE]({ commit, dispatch }, email) {
+    commit(EmailStatus.SENDING);
+    const resp = await RequestCodeService.sendCode(email);
+    if (!resp.isSuccess) {
+      commit(EmailStatus.SEND_FAIL, resp.data.timeout);
+    } else {
+      commit(EmailStatus.SEND, resp.data.timeout);
+    }
   },
-  [VERIFY_CODE]: ({ commit, dispatch }, user) => {
-    return new Promise((resolve, reject) => {
-      commit(EmailStatus.VERIFYING);
-      console.log(user.email);
-      console.log(user.code);
-      emailApi
-        .verifyCode(user.email, user.code)
-        .then((data) => {
-          commit(EmailStatus.VERIFY, data.access_token);
-          resolve();
-        })
-        .catch((err) => {
-          let errorMessage = emailErrorMessages[err.errorCode];
-          if (errorMessage === undefined) {
-            errorMessage = "Неизвестная ошибка";
-          }
-          commit(EmailStatus.VERIFY_ERROR, errorMessage);
-        });
-    });
+  async [VERIFY_CODE]({ commit, dispatch }, user) {
+    commit(EmailStatus.VERIFYING);
+    try {
+      const data = await RequestCodeService.verifyCode(user.email, user.code);
+      JwtService.saveEmailToken(data.access_token);
+      commit(EmailStatus.VERIFY);
+    } catch (err) {
+      let errorMessage = emailErrorMessages[err.errorCode];
+      if (errorMessage === undefined) {
+        errorMessage = "Неизвестная ошибка";
+      }
+      commit(EmailStatus.VERIFY_ERROR, errorMessage);
+    }
   },
   [CHANGE_EMAIL]: ({ commit, dispatch }) => {
     commit(EmailStatus.ENTER_EMAIL);
@@ -85,19 +69,16 @@ const mutations = {
     state.status = EmailStatus.VERIFYING;
     state.errorMessage = "";
   },
-  [EmailStatus.VERIFY]: (state, emailToken) => {
+  [EmailStatus.VERIFY]: (state) => {
     state.status = EmailStatus.VERIFY;
-    state.emailToken = emailToken;
     state.errorMessage = "";
   },
   [EmailStatus.VERIFY_ERROR]: (state, errorMessage) => {
     state.status = EmailStatus.VERIFY_ERROR;
-    state.emailToken = "";
     state.errorMessage = errorMessage;
   },
   [EmailStatus.ENTER_EMAIL]: (state) => {
     state.status = "ENTER_EMAIL";
-    state.emailToken = "";
     state.errorMessage = "";
   },
 };

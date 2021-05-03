@@ -1,7 +1,3 @@
-export const SEND_CODE = "SEND_CODE";
-export const VERIFY_CODE = "VERIFY_CODE";
-export const CHANGE_EMAIL = "CHANGE_EMAIL";
-
 export const EmailStatus = {
   SENDING: "SENDING",
   SEND: "SEND",

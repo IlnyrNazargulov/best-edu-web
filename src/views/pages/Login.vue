@@ -24,11 +24,11 @@
                   <CInput
                     placeholder="Пароль"
                     type="password"
-                    autocomplete="curent-password"
+                    autocomplete="current-password"
                     v-model="password"
                   >
                     <template #prepend-content
-                      ><CIcon name="cil-lock-locked"
+                      ><CIcon name="cil-shield-alt"
                     /></template>
                   </CInput>
                   <CRow>
@@ -44,7 +44,10 @@
                       <CButton color="link" class="px-0"
                         >Забыли пароль?</CButton
                       >
-                      <CButton color="link" class="d-lg-none"
+                      <CButton
+                        color="link"
+                        class="d-lg-none"
+                        @click.prevent="goToRegistration"
                         >Регистрация</CButton
                       >
                     </CCol>
@@ -63,7 +66,12 @@
                 <p>
                   Пройдите регистрацию чтобы использовать систему BEST-EDU.
                 </p>
-                <CButton color="light" variant="outline" size="lg">
+                <CButton
+                  @click.prevent="goToRegistration"
+                  color="light"
+                  variant="outline"
+                  size="lg"
+                >
                   Зарегистрироваться сейчас
                 </CButton>
               </CCardBody>
@@ -78,7 +86,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 
-import { AUTH_REQUEST } from "@/store/actions/auth";
+import { AUTH_REQUEST } from "@/store/actions.type";
 
 export default {
   name: "Login",
@@ -94,6 +102,9 @@ export default {
       this.$store.dispatch(AUTH_REQUEST, { email, password }).then(() => {
         this.$router.push("/");
       });
+    },
+    goToRegistration() {
+      this.$router.push("/pages/register");
     },
   },
   computed: {

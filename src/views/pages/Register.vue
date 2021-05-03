@@ -58,7 +58,7 @@
                     v-model="secondName"
                   >
                     <template #prepend-content
-                      ><CIcon name="cil-pencil"
+                      ><CIcon name="cil-user"
                     /></template>
                   </CInput>
                   <CInput
@@ -67,7 +67,7 @@
                     v-model="firstName"
                   >
                     <template #prepend-content
-                      ><CIcon name="cil-pencil"
+                      ><CIcon name="cil-user"
                     /></template>
                   </CInput>
                   <CInput
@@ -76,7 +76,7 @@
                     v-model="patronymic"
                   >
                     <template #prepend-content
-                      ><CIcon name="cil-pencil"
+                      ><CIcon name="cil-user"
                     /></template>
                   </CInput>
                   <CInput
@@ -86,21 +86,23 @@
                     v-model="password"
                   >
                     <template #prepend-content
-                      ><CIcon name="cil-lock-locked"
+                      ><CIcon name="cil-shield-alt"
                     /></template>
                   </CInput>
                   <CInput
                     placeholder="Повторите пароль"
                     type="password"
                     autocomplete="new-password"
-                    class="mb-4"
                     v-model="passwordRepeat"
                   >
                     <template #prepend-content
-                      ><CIcon name="cil-lock-locked"
+                      ><CIcon name="cil-shield-alt"
                     /></template>
                   </CInput>
-                  <CButton color="success" block
+                  <CButton
+                    color="success"
+                    block
+                    @click.prevent="registerAccount"
                     >Закончить создание аккаунта</CButton
                   >
                 </div>
@@ -115,7 +117,12 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import { SEND_CODE, VERIFY_CODE, CHANGE_EMAIL } from "@/store/actions/email";
+import {
+  SEND_CODE,
+  VERIFY_CODE,
+  CHANGE_EMAIL,
+  REGISTER_TEACHER,
+} from "@/store/actions.type";
 
 export default {
   data() {
@@ -136,12 +143,19 @@ export default {
     },
     verifyCode() {
       const { email, code } = this;
-      console.log(email);
-      console.log(code);
       this.$store.dispatch(VERIFY_CODE, { email, code });
     },
     changeEmail() {
       this.$store.dispatch(CHANGE_EMAIL);
+    },
+    async registerAccount() {
+      await this.$store.dispatch(REGISTER_TEACHER, {
+        secondName: this.secondName,
+        firstName: this.firstName,
+        patronymic: this.patronymic,
+        plainPassword: this.password,
+      });
+      this.$router.push("/");
     },
   },
   computed: {
@@ -149,16 +163,16 @@ export default {
     ...mapState({
       stageNumber: (state) => {
         if (
-          state.email.status == "ENTER_EMAIL" ||
-          state.email.status == "SENDING" ||
-          state.email.status == "SEND_FAIL"
+          state.requestCode.status == "ENTER_EMAIL" ||
+          state.requestCode.status == "SENDING" ||
+          state.requestCode.status == "SEND_FAIL"
         ) {
           return "STAGE_1";
         }
         if (
-          state.email.status == "VERIFYING" ||
-          state.email.status == "SEND" ||
-          state.email.status == "VERIFY_ERROR"
+          state.requestCode.status == "VERIFYING" ||
+          state.requestCode.status == "SEND" ||
+          state.requestCode.status == "VERIFY_ERROR"
         ) {
           return "STAGE_2";
         } else {

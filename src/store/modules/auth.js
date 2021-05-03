@@ -4,55 +4,44 @@ import {
   AUTH_ERROR,
   AUTH_SUCCESS,
   AUTH_LOGOUT,
-} from "@/store/actions/auth";
-import { USER_REQUEST, SET_USER_INFO } from "@/store/actions/user";
-import authApi from "@/utils/AuthApi";
+} from "@/store/actions.type";
+import { AccountService } from "@/utils/account.service";
+import { JwtService } from "@/utils/jwt.service";
 
 const state = {
-  accessToken: localStorage.getItem("accessToken") || "",
-  refreshToken: localStorage.getItem("refreshToken") || "",
   status: "",
   hasLoadedOnce: false,
   errorMessage: "",
 };
 
 const getters = {
-  isAuthenticated: (state) => !!state.token,
+  isAuthenticated: (state) => false,
   authStatus: (state) => state.status,
   failureAuth: (state) => state.status == "error",
 };
 
 const actions = {
-  [AUTH_REQUEST]: ({ commit, dispatch }, user) => {
-    return new Promise((resolve, reject) => {
-      commit(AUTH_REQUEST);
-      authApi
-        .login(user)
-        .then((resp) => {
-          let token = resp.token;
-          let account = resp.account;
+  async [AUTH_REQUEST]({ commit, dispatch }, user) {
+    commit(AUTH_REQUEST);
+    try {
+      const resp = await AccountService.login(user);
 
-          localStorage.setItem("accessToken", token.access_token);
-          localStorage.setItem("refreshToken", token.refresh_token);
+      let token = resp.token;
+      let account = resp.account;
 
-          commit(AUTH_SUCCESS, token);
-          dispatch(SET_USER_INFO, account);
-          resolve();
-        })
-        .catch((err) => {
-          commit(AUTH_ERROR, err);
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("refreshToken");
-          reject(err);
-        });
-    });
+      JwtService.saveAccessToken(token.access_token);
+      JwtService.saveRefreshToken(token.refresh_token);
+
+      commit(AUTH_SUCCESS, token);
+      dispatch(SET_USER_INFO, account);
+    } catch (err) {
+      commit(AUTH_ERROR, err);
+      JwtService.destroyRefreshToken();
+      JwtService.destroyAccessToken();
+    }
   },
-  [AUTH_LOGOUT]: ({ commit }) => {
-    return new Promise((resolve) => {
-      commit(AUTH_LOGOUT);
-      localStorage.removeItem("user-token");
-      resolve();
-    });
+  async [AUTH_LOGOUT]({ commit }) {
+    JwtService.destroyAllTokens();
   },
 };
 
@@ -62,8 +51,6 @@ const mutations = {
   },
   [AUTH_SUCCESS]: (state, token) => {
     state.status = "success";
-    state.accessToken = token.access_token;
-    state.refreshToken = token.refresh_token;
     state.hasLoadedOnce = true;
   },
   [AUTH_ERROR]: (state, err) => {
@@ -71,9 +58,6 @@ const mutations = {
     console.log(err);
     state.hasLoadedOnce = true;
     state.errorMessage = err.message;
-  },
-  [AUTH_LOGOUT]: (state) => {
-    state.token = "";
   },
 };
 

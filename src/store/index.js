@@ -3,7 +3,10 @@ import Vuex from "vuex";
 import user from "./modules/user";
 import auth from "./modules/auth";
 import sidebar from "./modules/sidebar";
-import email from "./modules/email";
+import requestCode from "./modules/request.code";
+import disciplines from "./modules/disciplines";
+import exercises from "./modules/exercises";
+import files from "./modules/files";
 
 Vue.use(Vuex);
 
@@ -12,6 +15,9 @@ export default new Vuex.Store({
     user,
     auth,
     sidebar,
-    email,
+    requestCode,
+    disciplines,
+    exercises,
+    files,
   },
 });
