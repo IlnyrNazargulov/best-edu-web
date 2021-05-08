@@ -33,7 +33,8 @@
     "vue-router": "^3.4.9",
     "vue-simplemde": "^2.0.0",
     "vuejs-medium-editor": "^1.2.1",
-    "vuex": "~3.6.0"
+    "vuex": "~3.6.0",
+    "vuex-persistedstate": "^4.0.0-beta.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
