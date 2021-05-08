@@ -63,15 +63,6 @@
                     >
                   </td>
                 </template>
-                <template #actions="{item}">
-                  <td>
-                    <CButton
-                      color="danger"
-                      @click.prevent="deleteExerciseFile(item)"
-                      >Удалить</CButton
-                    >
-                  </td>
-                </template>
               </CDataTable>
             </CTab>
           </CTabs>
@@ -105,7 +96,6 @@ export default {
         { key: "name", label: "Наименование" },
         { key: "size", label: "Размер" },
         { key: "url", label: "Ссылка на скачивание" },
-        { key: "actions", label: "Действия" },
       ],
       activePage: 1,
       exercise: {},
