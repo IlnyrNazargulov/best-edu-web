@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-
+import store from "../store";
 // Containers
 const TheContainer = () => import("@/containers/TheContainer");
 
@@ -15,8 +15,16 @@ const Widgets = () => import("@/views/widgets/Widgets");
 
 // Views - BEST-EDU
 const Disciplines = () => import("@/views/disciplines/Disciplines");
+const MyDisciplines = () => import("@/views/disciplines/MyDisciplines");
 const Discipline = () => import("@/views/disciplines/Discipline");
+const MyDiscipline = () => import("@/views/disciplines/MyDiscipline");
 const Exercise = () => import("@/views/disciplines/Exercise");
+const MyExercise = () => import("@/views/disciplines/MyExercise");
+const CreateDiscipline = () => import("@/views/disciplines/CreateDiscipline");
+const Teachers = () => import("@/views/access-discipline/Teachers");
+
+const RequestAccessDiscipline = () =>
+  import("@/views/access-discipline/RequestAccessDiscipline");
 
 // Views - Components
 const Cards = () => import("@/views/base/Cards");
@@ -86,7 +94,7 @@ function configRoutes() {
       redirect: "/dashboard",
       name: "Главная",
       component: TheContainer,
-      beforeEach: ifAuthenticated,
+      beforeEnter: ifAuthenticated,
       children: [
         {
           path: "dashboard",
@@ -116,8 +124,75 @@ function configRoutes() {
           ],
         },
         {
+          path: "teachers",
+          name: "Преподаватели",
+          component: Teachers,
+        },
+        {
+          path: "access-discipline",
+          name: "Доступ к дисциплине",
+          component: RequestAccessDiscipline,
+        },
+        {
+          path: "my-disciplines",
+          name: "Мои дисциплины",
+          redirect: "/my-disciplines",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "",
+              component: MyDisciplines,
+            },
+            {
+              path: "new",
+              name: "Создать",
+              component: CreateDiscipline,
+            },
+            {
+              path: ":disciplineId",
+              name: "Описание дисциплины",
+              redirect: "/my-disciplines/:disciplineId",
+              component: {
+                render(c) {
+                  return c("router-view");
+                },
+              },
+              children: [
+                {
+                  path: "",
+                  component: MyDiscipline,
+                },
+                {
+                  path: "exercises",
+                  name: "Занятие",
+                  component: {
+                    render(c) {
+                      return c("router-view");
+                    },
+                  },
+                  children: [
+                    {
+                      path: "",
+                      component: MyExercise,
+                    },
+                    {
+                      path: ":exerciseId/",
+                      component: MyExercise,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
           path: "disciplines",
           name: "Дисциплины",
+          redirect: "/disciplines",
           component: {
             render(c) {
               return c("router-view");
@@ -131,6 +206,7 @@ function configRoutes() {
             {
               path: ":disciplineId",
               name: "Описание дисциплины",
+              redirect: "/disciplines/:disciplineId",
               component: {
                 render(c) {
                   return c("router-view");

@@ -1,27 +1,12 @@
 import { ApiService } from "@/utils/api.service";
 import Vue from "vue";
 
-export const FileService = {
-  async create(disciplineId, exerciseId, exerciseFileType, data) {
+export const AccessDisciplineService = {
+  async createRequest(disciplineId) {
     ApiService.setAuthorizationHeader();
-    console.log(exerciseFileType);
     try {
       const resp = await Vue.axios.post(
-        `/disciplines/${disciplineId}/exercises/${exerciseId}/exercise-files/${exerciseFileType}/`,
-        data,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-      let objResp = ApiService.getSuccessData(resp);
-      return objResp;
-    } catch (err) {
-      return ApiService.getErrorData(err);
-    }
-  },
-  async getAllByExercise(disciplineId, exerciseId) {
-    ApiService.setAuthorizationHeader();
-    try {
-      const resp = await Vue.axios.get(
-        `/disciplines/${disciplineId}/exercises/${exerciseId}/exercise-files/`
+        `/disciplines/${disciplineId}/access-discipline/`
       );
       let objResp = ApiService.getSuccessData(resp);
       return objResp.data;
@@ -29,11 +14,11 @@ export const FileService = {
       return ApiService.getErrorData(err);
     }
   },
-  async deleteById(disciplineId, exerciseId, fileId) {
+  async acceptAccessDiscipline(disciplineId, accessDisciplineId) {
     ApiService.setAuthorizationHeader();
     try {
-      const resp = await Vue.axios.delete(
-        `/disciplines/${disciplineId}/exercises/${exerciseId}/exercise-files/${fileId}/`
+      const resp = await Vue.axios.put(
+        `/disciplines/${disciplineId}/access-discipline/${accessDisciplineId}/accept/`
       );
       let objResp = ApiService.getSuccessData(resp);
       return objResp.data;
@@ -41,13 +26,26 @@ export const FileService = {
       return ApiService.getErrorData(err);
     }
   },
-  async getContentByUrl(url) {
+  async rejectAccessDiscipline(disciplineId, accessDisciplineId) {
     ApiService.setAuthorizationHeader();
     try {
-      const resp = await Vue.axios.get(url, {
-        baseURL: "https://best-edu.tk",
+      const resp = await Vue.axios.put(
+        `/disciplines/${disciplineId}/access-discipline/${accessDisciplineId}/reject/`
+      );
+      let objResp = ApiService.getSuccessData(resp);
+      return objResp.data;
+    } catch (err) {
+      return ApiService.getErrorData(err);
+    }
+  },
+  async getAll(filter) {
+    ApiService.setAuthorizationHeader();
+    try {
+      const resp = await Vue.axios.get(`/access-discipline/`, {
+        params: { ...filter },
       });
-      return resp.data;
+      let objResp = ApiService.getSuccessData(resp);
+      return objResp.data;
     } catch (err) {
       return ApiService.getErrorData(err);
     }

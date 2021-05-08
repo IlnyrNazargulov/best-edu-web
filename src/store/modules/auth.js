@@ -10,14 +10,12 @@ import { JwtService } from "@/utils/jwt.service";
 
 const state = {
   status: "",
-  hasLoadedOnce: false,
-  errorMessage: "",
 };
 
 const getters = {
-  isAuthenticated: (state) => false,
-  authStatus: (state) => state.status,
-  failureAuth: (state) => state.status == "error",
+  isAuthenticated: (state) =>
+    state.status == "SUCCESS" || !!JwtService.getAccessToken(),
+  isFailedAuth: (state) => state.status == "ERROR",
 };
 
 const actions = {
@@ -27,17 +25,16 @@ const actions = {
       const resp = await AccountService.login(user);
 
       let token = resp.token;
-      let account = resp.account;
 
       JwtService.saveAccessToken(token.access_token);
       JwtService.saveRefreshToken(token.refresh_token);
-
+      AccountService.saveAccount(resp.account);
       commit(AUTH_SUCCESS, token);
-      dispatch(SET_USER_INFO, account);
     } catch (err) {
       commit(AUTH_ERROR, err);
       JwtService.destroyRefreshToken();
       JwtService.destroyAccessToken();
+      throw err;
     }
   },
   async [AUTH_LOGOUT]({ commit }) {
@@ -47,17 +44,13 @@ const actions = {
 
 const mutations = {
   [AUTH_REQUEST]: (state) => {
-    state.status = "loading";
+    state.status = "LOADING";
   },
   [AUTH_SUCCESS]: (state, token) => {
-    state.status = "success";
-    state.hasLoadedOnce = true;
+    state.status = "SUCCESS";
   },
   [AUTH_ERROR]: (state, err) => {
-    state.status = "error";
-    console.log(err);
-    state.hasLoadedOnce = true;
-    state.errorMessage = err.message;
+    state.status = "ERROR";
   },
 };
 

@@ -3,8 +3,8 @@
     <CContainer>
       <CRow class="justify-content-center">
         <CCol md="8">
-          <CAlert v-if="failureAuth" show color="warning">
-            {{ errorMessage }}
+          <CAlert v-if="isFailedAuth" show color="warning">
+            {{ errorInfo }}
           </CAlert>
           <CCardGroup>
             <CCard class="p-4">
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 import { AUTH_REQUEST } from "@/store/actions.type";
 
@@ -94,22 +94,27 @@ export default {
     return {
       email: "",
       password: "",
+      errorInfo: "",
     };
   },
   methods: {
     login() {
       const { email, password } = this;
-      this.$store.dispatch(AUTH_REQUEST, { email, password }).then(() => {
-        this.$router.push("/");
-      });
+      this.$store
+        .dispatch(AUTH_REQUEST, { email, password })
+        .then(() => {
+          this.$router.push("/");
+        })
+        .catch((error) => {
+          this.errorInfo = error.message;
+        });
     },
     goToRegistration() {
       this.$router.push("/pages/register");
     },
   },
   computed: {
-    ...mapGetters(["failureAuth"]),
-    ...mapState({ errorMessage: (state) => state.auth.errorMessage }),
+    ...mapGetters(["isFailedAuth"]),
   },
 };
 </script>

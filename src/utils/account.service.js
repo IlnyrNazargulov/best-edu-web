@@ -2,6 +2,8 @@ import { ApiService } from "@/utils/api.service";
 import Vue from "vue";
 import { JwtService } from "./jwt.service";
 
+const ACCOUNT = "ACCOUNT";
+
 export const AccountService = {
   async login(payload) {
     const data = {
@@ -153,5 +155,14 @@ export const AccountService = {
     } catch (err) {
       return ApiService.getErrorData(err);
     }
+  },
+  saveAccount(account) {
+    window.localStorage.setItem(ACCOUNT, JSON.stringify(account));
+  },
+  getAccount() {
+    return JSON.parse(window.localStorage.getItem(ACCOUNT));
+  },
+  destroyAccount() {
+    window.localStorage.removeItem(ACCOUNT);
   },
 };

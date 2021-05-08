@@ -14,12 +14,34 @@ export default [
       },
       {
         _name: "CSidebarNavTitle",
-        _children: ["Theme"],
+        _children: ["Общее"],
+      },
+      {
+        _name: "CSidebarNavDropdown",
+        name: "Дисциплины",
+        to: "/disciplines",
+        icon: "cil-drop",
+        items: [
+          {
+            name: "Мои дисциплины",
+            to: "/my-disciplines",
+          },
+          {
+            name: "Все дисциплины",
+            to: "/disciplines",
+          },
+        ],
       },
       {
         _name: "CSidebarNavItem",
-        name: "Дисциплины",
-        to: "/disciplines",
+        name: "Преподаватели",
+        to: "/teachers",
+        icon: "cil-drop",
+      },
+      {
+        _name: "CSidebarNavItem",
+        name: "Доступ к дисциплине",
+        to: "/access-discipline",
         icon: "cil-drop",
       },
       {
@@ -36,7 +58,7 @@ export default [
       },
       {
         _name: "CSidebarNavTitle",
-        _children: ["Components"],
+        _children: ["Личное"],
       },
       {
         _name: "CSidebarNavDropdown",

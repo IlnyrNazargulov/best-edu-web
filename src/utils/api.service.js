@@ -19,6 +19,6 @@ export const ApiService = {
   },
 
   getErrorData(err) {
-    return err.response.data.errors[0];
+    throw err.response.data.errors[0];
   },
 };

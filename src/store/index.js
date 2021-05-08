@@ -5,6 +5,7 @@ import auth from "./modules/auth";
 import sidebar from "./modules/sidebar";
 import requestCode from "./modules/request.code";
 import disciplines from "./modules/disciplines";
+import accessDiscipline from "./modules/access.discipline";
 import exercises from "./modules/exercises";
 import files from "./modules/files";
 
@@ -19,5 +20,6 @@ export default new Vuex.Store({
     disciplines,
     exercises,
     files,
+    accessDiscipline,
   },
 });

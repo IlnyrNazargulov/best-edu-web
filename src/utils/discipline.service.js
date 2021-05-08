@@ -2,12 +2,8 @@ import { ApiService } from "@/utils/api.service";
 import Vue from "vue";
 
 export const DisciplineService = {
-  async create(name, isPublic) {
+  async create(data) {
     ApiService.setAuthorizationHeader();
-    const data = {
-      name,
-      isPublic,
-    };
     try {
       const resp = await Vue.axios.post("/disciplines/", data);
       let objResp = ApiService.getSuccessData(resp);
@@ -16,25 +12,22 @@ export const DisciplineService = {
       return ApiService.getErrorData(err);
     }
   },
-  async update(id, name, isPublic) {
+  async update(id, discipline) {
     ApiService.setAuthorizationHeader();
-    const data = {
-      name,
-      isPublic,
-    };
     try {
-      const resp = await Vue.axios.put(`/disciplines/${id}/`, data);
+      const resp = await Vue.axios.put(`/disciplines/${id}/`, discipline);
       let objResp = ApiService.getSuccessData(resp);
       return objResp.data;
     } catch (err) {
       return ApiService.getErrorData(err);
     }
   },
-  async getByFilter(name) {
+  async getByFilter(filter) {
     ApiService.setAuthorizationHeader();
-    const filter = { nameDiscipline: name };
     try {
-      const resp = await Vue.axios.get("/disciplines/", { params: filter });
+      const resp = await Vue.axios.get("/disciplines/", {
+        params: { ...filter },
+      });
       let objResp = ApiService.getSuccessData(resp);
       return objResp.data;
     } catch (err) {

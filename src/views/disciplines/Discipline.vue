@@ -5,14 +5,23 @@
         <CCardHeader> {{ discipline.name }} </CCardHeader>
         <CCardBody>
           {{ discipline.description }}
-        </CCardBody>
-        <CCardFooter>
-          <CButton color="primary" @click="goBack"
+          <hr class="d-sm-down-none" />
+          <CButton color="primary" @click="goBack" class="mb-3 mr-3"
             >Вернуться к списку дисциплин</CButton
           >
-        </CCardFooter>
-        <CCardBody>
+          <CButton
+            v-c-tooltip.hover.click="
+              'Для получения доступа к дисциплине запросите доступ'
+            "
+            v-show="!discipline.isAccess"
+            color="primary"
+            @click="requestAccess"
+            class="mb-3"
+            >Запросить доступ</CButton
+          >
+
           <CDataTable
+            v-show="discipline.isAccess"
             hover
             striped
             :items="exercises"
@@ -25,6 +34,11 @@
             :pagination="{ doubleArrows: false, align: 'center' }"
             @page-change="pageChange"
           >
+            <template #orderNumber="{index}">
+              <td>
+                {{ index + 1 }}
+              </td>
+            </template>
           </CDataTable>
         </CCardBody>
       </CCard>
@@ -36,6 +50,7 @@
 import {
   FIND_DISCIPLINE_BY_ID,
   FIND_ALL_EXERCISE_BY_DISCIPLINE_ID,
+  REQUEST_DISCIPLINE_ACCESS,
 } from "@/store/actions.type";
 
 export default {
@@ -50,11 +65,14 @@ export default {
         { key: "name", label: "Название", _classes: "font-weight-bold" },
         { key: "createdAt", label: "Дата создания" },
       ],
+      isAccess: true,
     };
   },
   async created() {
     await this.findDiscipline();
-    await this.findExercisesById();
+    if (this.discipline.isAccess) {
+      await this.findExercisesById();
+    }
   },
   methods: {
     goBack() {
@@ -69,6 +87,12 @@ export default {
     async findExercisesById() {
       this.exercises = await this.$store.dispatch(
         FIND_ALL_EXERCISE_BY_DISCIPLINE_ID,
+        this.$route.params.disciplineId
+      );
+    },
+    async requestAccess() {
+      this.exercises = await this.$store.dispatch(
+        REQUEST_DISCIPLINE_ACCESS,
         this.$route.params.disciplineId
       );
     },
