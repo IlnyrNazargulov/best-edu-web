@@ -1,5 +1,5 @@
 <template>
-  <CHeader fixed with-subheader light>
+  <CHeader fixed with-subheader light class="align-items-center">
     <CToggler
       in-header
       class="ml-3 d-lg-none"
@@ -10,57 +10,30 @@
       class="ml-3 d-md-down-none"
       @click="$store.commit('toggleSidebarDesktop')"
     />
-    <CHeaderBrand class="mx-auto d-lg-none" to="/">
-      <CIcon name="logo" height="48" alt="Logo" />
-    </CHeaderBrand>
-    <CHeaderNav class="d-md-down-none mr-auto">
-      <CHeaderNavItem class="px-3">
-        <CHeaderNavLink to="/dashboard">
-          Dashboard
-        </CHeaderNavLink>
-      </CHeaderNavItem>
-      <CHeaderNavItem class="px-3">
-        <CHeaderNavLink to="/users" exact>
-          Users
-        </CHeaderNavLink>
-      </CHeaderNavItem>
-      <CHeaderNavItem class="px-3">
-        <CHeaderNavLink>
-          Settings
-        </CHeaderNavLink>
-      </CHeaderNavItem>
-    </CHeaderNav>
-    <CHeaderNav class="mr-4">
-      <CHeaderNavItem class="d-md-down-none mx-2">
-        <CHeaderNavLink>
-          <CIcon name="cil-bell" />
-        </CHeaderNavLink>
-      </CHeaderNavItem>
-      <CHeaderNavItem class="d-md-down-none mx-2">
-        <CHeaderNavLink>
-          <CIcon name="cil-list" />
-        </CHeaderNavLink>
-      </CHeaderNavItem>
-      <CHeaderNavItem class="d-md-down-none mx-2">
-        <CHeaderNavLink>
-          <CIcon name="cil-envelope-open" />
-        </CHeaderNavLink>
-      </CHeaderNavItem>
-      <TheHeaderDropdownAccnt />
-    </CHeaderNav>
-    <CSubheader class="px-3">
+    <CHeaderNav class="d-md-down-none mr-auto mr-4">
       <CBreadcrumbRouter class="border-0 mb-0" />
-    </CSubheader>
+    </CHeaderNav>
+    <CHeaderNav class="mr-4 ml-auto p-2">
+      <CHeaderNavItem class="d-md-down-none mx-2">
+        <CButton color="secondary" variant="outline" @click.prevent="logout">
+          <CIcon name="cilAccountLogout" />&nbsp;&nbsp;
+          <span>Выйти</span>
+        </CButton>
+      </CHeaderNavItem>
+    </CHeaderNav>
   </CHeader>
 </template>
 
 <script>
-import TheHeaderDropdownAccnt from "./TheHeaderDropdownAccnt";
+import { AUTH_LOGOUT } from "@/store/actions.type";
 
 export default {
   name: "TheHeader",
-  components: {
-    TheHeaderDropdownAccnt,
+  methods: {
+    logout() {
+      this.$store.dispatch(AUTH_LOGOUT);
+      this.$router.push({ path: "/pages/login" });
+    },
   },
 };
 </script>

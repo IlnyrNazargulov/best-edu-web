@@ -25,14 +25,14 @@ export const JwtService = {
     window.localStorage.removeItem(ID_REFRESH_TOKEN_KEY);
   },
   destroyAccessToken() {
-    window.localStorage.removeItem(ID_REFRESH_TOKEN_KEY);
+    window.localStorage.removeItem(ID_ACCESS_TOKEN_KEY);
   },
   destroyEmailToken() {
     window.localStorage.removeItem(ID_EMAIL_TOKEN_KEY);
   },
   destroyAllTokens() {
-    destroyAccessToken();
-    destroyRefreshToken();
-    destroyEmailToken();
+    this.destroyAccessToken();
+    this.destroyRefreshToken();
+    this.destroyEmailToken();
   },
 };

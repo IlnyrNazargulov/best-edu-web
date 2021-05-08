@@ -13,8 +13,7 @@ const state = {
 };
 
 const getters = {
-  isAuthenticated: (state) =>
-    state.status == "SUCCESS" || !!JwtService.getAccessToken(),
+  isAuthenticated: (state) => state.status == "SUCCESS",
   isFailedAuth: (state) => state.status == "ERROR",
 };
 
@@ -40,6 +39,7 @@ const actions = {
   },
   async [AUTH_LOGOUT]({ commit }) {
     JwtService.destroyAllTokens();
+    commit(AUTH_LOGOUT);
   },
 };
 
@@ -49,6 +49,9 @@ const mutations = {
   },
   [AUTH_SUCCESS]: (state, token) => {
     state.status = "SUCCESS";
+  },
+  [AUTH_LOGOUT]: (state) => {
+    state.status = "";
   },
   [AUTH_ERROR]: (state, err) => {
     state.status = "ERROR";

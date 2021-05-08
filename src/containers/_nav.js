@@ -3,16 +3,6 @@ export default [
     _name: "CSidebarNav",
     _children: [
       {
-        _name: "CSidebarNavItem",
-        name: "Dashboard",
-        to: "/dashboard",
-        icon: "cil-speedometer",
-        badge: {
-          color: "primary",
-          text: "NEW",
-        },
-      },
-      {
         _name: "CSidebarNavTitle",
         _children: ["Общее"],
       },
@@ -20,7 +10,7 @@ export default [
         _name: "CSidebarNavDropdown",
         name: "Дисциплины",
         to: "/disciplines",
-        icon: "cil-drop",
+        icon: "cilLayers",
         items: [
           {
             name: "Мои дисциплины",
@@ -36,13 +26,19 @@ export default [
         _name: "CSidebarNavItem",
         name: "Преподаватели",
         to: "/teachers",
-        icon: "cil-drop",
+        icon: "cilHappy",
       },
       {
         _name: "CSidebarNavItem",
         name: "Доступ к дисциплине",
         to: "/access-discipline",
-        icon: "cil-drop",
+        icon: "cilLockUnlocked",
+      },
+      {
+        _name: "CSidebarNavItem",
+        name: "Мой профиль",
+        to: "/profile",
+        icon: "cilInfo",
       },
       {
         _name: "CSidebarNavItem",
@@ -54,7 +50,7 @@ export default [
         _name: "CSidebarNavItem",
         name: "Typography",
         to: "/theme/typography",
-        icon: "cil-pencil",
+        icon: "cil-spreadsheet",
       },
       {
         _name: "CSidebarNavTitle",

@@ -72,20 +72,26 @@ const User = () => import("@/views/users/User");
 
 Vue.use(Router);
 
-const ifAuthenticated = (to, from, next) => {
-  if (store.getters.isAuthenticated) {
-    next();
-    return;
-  }
-  next("pages/login");
-};
-
-export default new Router({
+const router = new Router({
   mode: "history", // https://router.vuejs.org/api/#mode
   linkActiveClass: "active",
   scrollBehavior: () => ({ y: 0 }),
   routes: configRoutes(),
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (store.getters.isAuthenticated) {
+      next();
+    } else {
+      next("/pages/login");
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;
 
 function configRoutes() {
   return [
@@ -94,7 +100,7 @@ function configRoutes() {
       redirect: "/dashboard",
       name: "Главная",
       component: TheContainer,
-      beforeEnter: ifAuthenticated,
+      meta: { requiresAuth: true },
       children: [
         {
           path: "dashboard",
@@ -446,6 +452,7 @@ function configRoutes() {
       path: "/pages",
       redirect: "/pages/404",
       name: "Pages",
+      meta: { requiresAuth: false },
       component: {
         render(c) {
           return c("router-view");

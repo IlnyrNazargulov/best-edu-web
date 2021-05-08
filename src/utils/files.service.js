@@ -4,7 +4,6 @@ import Vue from "vue";
 export const FileService = {
   async create(disciplineId, exerciseId, exerciseFileType, data) {
     ApiService.setAuthorizationHeader();
-    console.log(exerciseFileType);
     try {
       const resp = await Vue.axios.post(
         `/disciplines/${disciplineId}/exercises/${exerciseId}/exercise-files/${exerciseFileType}/`,

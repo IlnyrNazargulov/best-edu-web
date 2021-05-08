@@ -6,17 +6,17 @@
     @update:show="(value) => $store.commit('set', ['sidebarShow', value])"
   >
     <CSidebarBrand class="d-md-down-none" to="/">
-      <CIcon
-        class="c-sidebar-brand-full"
-        name="logo"
+      <img
+        class="c-sidebar-brand-full m-2"
         size="custom-size"
-        :height="35"
+        src="@/assets/logo.png"
+        :height="70"
         viewBox="0 0 556 134"
       />
-      <CIcon
+      <img
         class="c-sidebar-brand-minimized"
-        name="logo"
         size="custom-size"
+        src="@/assets/logo.png"
         :height="35"
         viewBox="0 0 110 134"
       />
@@ -38,7 +38,7 @@ export default {
   nav,
   computed: {
     show() {
-      return this.$store.state.sidebarShow;
+      return this.$store.state.sidebar.sidebarShow;
     },
     minimize() {
       return this.$store.state.sidebarMinimize;
