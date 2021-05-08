@@ -3,9 +3,6 @@
     <CContainer>
       <CRow class="justify-content-center">
         <CCol md="8">
-          <CAlert v-if="isFailedAuth" show color="warning">
-            {{ errorInfo }}
-          </CAlert>
           <CCardGroup>
             <CCard class="p-4">
               <CCardBody>
@@ -41,7 +38,10 @@
                       >
                     </CCol>
                     <CCol col="6" class="text-right">
-                      <CButton color="link" class="px-0"
+                      <CButton
+                        color="link"
+                        class="px-0"
+                        @click.prevent="goToRegistration"
                         >Забыли пароль?</CButton
                       >
                       <CButton
@@ -111,6 +111,9 @@ export default {
     },
     goToRegistration() {
       this.$router.push("/pages/register");
+    },
+    goToRegistration() {
+      this.$router.push("/pages/reset-password");
     },
   },
   computed: {

@@ -1,4 +1,3 @@
-/* eslint-disable promise/param-names */
 import {
   AUTH_REQUEST,
   AUTH_ERROR,
@@ -8,9 +7,13 @@ import {
 import { AccountService } from "@/utils/account.service";
 import { JwtService } from "@/utils/jwt.service";
 
-const state = {
-  status: "",
+const getDefaultState = () => {
+  return {
+    status: "",
+  };
 };
+
+const state = getDefaultState();
 
 const getters = {
   isAuthenticated: (state) => state.status == "SUCCESS",
@@ -40,10 +43,14 @@ const actions = {
   async [AUTH_LOGOUT]({ commit }) {
     JwtService.destroyAllTokens();
     commit(AUTH_LOGOUT);
+    commit("resetState");
   },
 };
 
 const mutations = {
+  resetState(state) {
+    Object.assign(state, getDefaultState());
+  },
   [AUTH_REQUEST]: (state) => {
     state.status = "LOADING";
   },

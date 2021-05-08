@@ -1,8 +1,17 @@
-import Vue from "vue";
-import { REGISTER_TEACHER, FIND_TEACHERS } from "@/store/actions.type";
+import {
+  REGISTER_TEACHER,
+  FIND_TEACHERS,
+  RESET_PASSWORD,
+} from "@/store/actions.type";
 import { AccountService } from "@/utils/account.service";
 
-const state = { account: AccountService.getAccount() || "" };
+const getDefaultState = () => {
+  return {
+    account: AccountService.getAccount() || "",
+  };
+};
+
+const state = getDefaultState();
 
 const actions = {
   async [REGISTER_TEACHER]({ commit }, userInfo) {
@@ -12,9 +21,16 @@ const actions = {
   async [FIND_TEACHERS]({ commit }, filter) {
     return await AccountService.getTeacherByFilter(filter);
   },
+  async [RESET_PASSWORD]({ commit }, password) {
+    await AccountService.resetPassword(password);
+    commit("resetRequestCodeState");
+  },
 };
 
 const mutations = {
+  resetState(state) {
+    Object.assign(state, getDefaultState());
+  },
   setACCOUNT(state, account) {
     state.account = account;
   },

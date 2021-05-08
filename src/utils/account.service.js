@@ -6,6 +6,7 @@ const ACCOUNT = "ACCOUNT";
 
 export const AccountService = {
   async login(payload) {
+    ApiService.dropAuthorizationHeader();
     const data = {
       login: payload.email,
       plainPassword: payload.password,
@@ -131,7 +132,7 @@ export const AccountService = {
     }
   },
   async resetPassword(password) {
-    ApiService.setAuthorizationHeader();
+    ApiService.setAuthorizationHeader(JwtService.getEmailToken());
     const data = {
       password,
     };

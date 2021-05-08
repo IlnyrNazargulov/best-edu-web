@@ -14,6 +14,9 @@ export const ApiService = {
       token != null ? token : JwtService.getAccessToken()
     }`;
   },
+  dropAuthorizationHeader(token = null) {
+    delete Vue.axios.defaults.headers.common["Authorization"];
+  },
   getSuccessData(response) {
     return response.data;
   },

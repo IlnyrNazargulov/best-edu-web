@@ -3,11 +3,15 @@ import { RequestCodeService } from "@/utils/request.code.service";
 import { EmailStatus } from "@/store/model/EmailStatus";
 import { JwtService } from "@/utils/jwt.service";
 
-const state = {
-  status: EmailStatus.ENTER_EMAIL,
-  errorMessage: "",
-  timeout: 0,
+const getDefaultState = () => {
+  return {
+    status: EmailStatus.ENTER_EMAIL,
+    errorMessage: "",
+    timeout: 0,
+  };
 };
+
+const state = getDefaultState();
 
 const emailErrorMessages = {
   INVALID_CODE: "Неправильный код",
@@ -51,6 +55,9 @@ const actions = {
 };
 
 const mutations = {
+  resetRequestCodeState(state) {
+    Object.assign(state, getDefaultState());
+  },
   [EmailStatus.SENDING]: (state) => {
     state.status = EmailStatus.SENDING;
     state.errorMessage = "";
@@ -78,7 +85,7 @@ const mutations = {
     state.errorMessage = errorMessage;
   },
   [EmailStatus.ENTER_EMAIL]: (state) => {
-    state.status = "ENTER_EMAIL";
+    state.status = EmailStatus.ENTER_EMAIL;
     state.errorMessage = "";
   },
 };

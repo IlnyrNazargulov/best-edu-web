@@ -65,6 +65,7 @@ const Page404 = () => import("@/views/pages/Page404");
 const Page500 = () => import("@/views/pages/Page500");
 const Login = () => import("@/views/pages/Login");
 const Register = () => import("@/views/pages/Register");
+const ResetPassword = () => import("@/views/pages/ResetPassword");
 
 // Users
 const Users = () => import("@/views/users/Users");
@@ -478,6 +479,11 @@ function configRoutes() {
           path: "register",
           name: "Register",
           component: Register,
+        },
+        {
+          path: "reset-password",
+          name: "Register",
+          component: ResetPassword,
         },
       ],
     },
