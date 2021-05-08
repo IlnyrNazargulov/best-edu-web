@@ -2,9 +2,7 @@ import Vue from "vue";
 import { REGISTER_TEACHER, FIND_TEACHERS } from "@/store/actions.type";
 import { AccountService } from "@/utils/account.service";
 
-const state = { status: "", account: AccountService.getAccount() || "" };
-
-const getters = {};
+const state = { account: AccountService.getAccount() || "" };
 
 const actions = {
   async [REGISTER_TEACHER]({ commit }, userInfo) {
@@ -16,11 +14,14 @@ const actions = {
   },
 };
 
-const mutations = {};
+const mutations = {
+  setACCOUNT(state, account) {
+    state.account = account;
+  },
+};
 
 export default {
   state,
-  getters,
   actions,
   mutations,
 };

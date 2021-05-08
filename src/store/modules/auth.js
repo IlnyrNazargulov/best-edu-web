@@ -30,6 +30,7 @@ const actions = {
       JwtService.saveRefreshToken(token.refresh_token);
       AccountService.saveAccount(resp.account);
       commit(AUTH_SUCCESS, token);
+      commit("setACCOUNT", resp.account);
     } catch (err) {
       commit(AUTH_ERROR, err);
       JwtService.destroyRefreshToken();
