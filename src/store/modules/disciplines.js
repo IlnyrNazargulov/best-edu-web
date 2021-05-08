@@ -1,4 +1,3 @@
-import Vue from "vue";
 import {
   FIND_DISCIPLINES,
   FIND_DISCIPLINE_BY_ID,
