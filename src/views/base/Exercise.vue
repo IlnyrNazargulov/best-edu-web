@@ -106,10 +106,8 @@ export default {
       },
     };
   },
-  created() {
+  async created() {
     this.findExercise();
-  },
-  mounted() {
     setTimeout(() => {
       this.simplemde.togglePreview();
     }, 250);

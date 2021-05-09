@@ -25,7 +25,7 @@
       <CSidebarNavItem
         v-show="!isTeacher"
         icon="cilLayers"
-        name="Мои дисциплины"
+        name="Все дисциплины"
         to="/disciplines"
       />
 
@@ -34,8 +34,8 @@
         icon="cilLayers"
         v-show="isTeacher"
       >
-        <CSidebarNavItem name="Мои дисциплины" to="/disciplines" />
-        <CSidebarNavItem name="Все дисциплины" to="/my-disciplines" />
+        <CSidebarNavItem name="Мои дисциплины" to="/my-disciplines" />
+        <CSidebarNavItem name="Все дисциплины" to="/disciplines" />
       </CSidebarNavDropdown>
       <CSidebarNavItem name="Преподаватели" icon="cilHappy" to="/teachers" />
       <CSidebarNavItem
