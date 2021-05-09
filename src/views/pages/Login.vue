@@ -97,6 +97,9 @@ export default {
       errorInfo: "",
     };
   },
+  created() {
+    this.$store.dispatch("resetState");
+  },
   methods: {
     login() {
       const { email, password } = this;
