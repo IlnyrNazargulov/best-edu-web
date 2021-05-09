@@ -22,6 +22,8 @@ const Exercise = () => import("@/views/disciplines/Exercise");
 const MyExercise = () => import("@/views/disciplines/MyExercise");
 const CreateDiscipline = () => import("@/views/disciplines/CreateDiscipline");
 const Teachers = () => import("@/views/access-discipline/Teachers");
+const Profile = () => import("@/views/access-discipline/Profile");
+const ChangePassword = () => import("@/views/access-discipline/ChangePassword");
 
 const RequestAccessDiscipline = () =>
   import("@/views/access-discipline/RequestAccessDiscipline");
@@ -127,6 +129,30 @@ function configRoutes() {
               path: "typography",
               name: "Typography",
               component: Typography,
+            },
+          ],
+        },
+        {
+          path: "profile",
+          name: "Профиль",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "",
+              component: Profile,
+            },
+            {
+              path: ":accountId",
+              component: Profile,
+            },
+            {
+              path: "change-password",
+              name: "Смена пароля",
+              component: ChangePassword,
             },
           ],
         },

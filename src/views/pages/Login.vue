@@ -41,7 +41,7 @@
                       <CButton
                         color="link"
                         class="px-0"
-                        @click.prevent="goToRegistration"
+                        @click.prevent="goToResetPassword"
                         >Забыли пароль?</CButton
                       >
                       <CButton
@@ -112,7 +112,7 @@ export default {
     goToRegistration() {
       this.$router.push("/pages/register");
     },
-    goToRegistration() {
+    goToResetPassword() {
       this.$router.push("/pages/reset-password");
     },
   },

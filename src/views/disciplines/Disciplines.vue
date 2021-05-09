@@ -1,36 +1,42 @@
 <template>
   <CCard>
     <CCardHeader>
-      <CIcon name="cil-justify-center" />
       <strong> Поиск дисциплины </strong>
     </CCardHeader>
     <CCardBody>
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Введите название дициплины"
-          v-model="nameFilter"
-        />
-        <div class="input-group-append">
-          <CButton color="primary" @click.prevent="findDisciplines">
-            Поиск
-          </CButton>
-        </div>
-      </div>
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Введите фио преподавателя"
-          v-model="teacherNameFilter"
-        />
-        <div class="input-group-append">
-          <CButton color="primary" @click.prevent="findDisciplines">
-            Поиск
-          </CButton>
-        </div>
-      </div>
+      <CRow>
+        <CCol sm="6">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Введите название дициплины"
+              v-model="nameFilter"
+            />
+            <div class="input-group-append">
+              <CButton color="primary" @click.prevent="findDisciplines">
+                Поиск
+              </CButton>
+            </div>
+          </div>
+        </CCol>
+
+        <CCol sm="6">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Введите фио преподавателя"
+              v-model="teacherNameFilter"
+            />
+            <div class="input-group-append">
+              <CButton color="primary" @click.prevent="findDisciplines">
+                Поиск
+              </CButton>
+            </div>
+          </div>
+        </CCol>
+      </CRow>
       <CDataTable
         hover
         striped
@@ -70,12 +76,15 @@ import { FIND_DISCIPLINES } from "@/store/actions.type";
 export default {
   name: "Disciplines",
   async created() {
+    this.teacherIdFilter = this.$route.query.teacherId;
+    this.teacherNameFilter = this.$route.query.teacherName;
     await this.findDisciplines();
   },
   data() {
     return {
       disciplines: [],
       nameFilter: "",
+      teacherIdFilter: null,
       teacherNameFilter: "",
       fields: [
         { key: "name", label: "Название" },
@@ -102,6 +111,7 @@ export default {
         nameDiscipline: this.nameFilter,
         teacherFullName: this.teacherNameFilter,
         onlyVisible: true,
+        teacherId: this.teacherIdFilter,
       });
     },
     rowClicked(item, index) {

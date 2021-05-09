@@ -39,7 +39,7 @@ export const AccountService = {
       return ApiService.getErrorData(err);
     }
   },
-  async getCurrentAccount(id) {
+  async getCurrentAccount() {
     ApiService.setAuthorizationHeader();
     try {
       const resp = await Vue.axios.get(`/accounts/current/`);
@@ -49,13 +49,8 @@ export const AccountService = {
       return ApiService.getErrorData(err);
     }
   },
-  async updateAccount(info) {
+  async updateAccount(data) {
     ApiService.setAuthorizationHeader();
-    const data = {
-      secondName: info.secondName,
-      firstName: info.firstName,
-      patronymic: info.patronymic,
-    };
     try {
       const resp = await Vue.axios.put("/accounts/current/", data);
       let objResp = ApiService.getSuccessData(resp);
@@ -150,7 +145,20 @@ export const AccountService = {
       password,
     };
     try {
-      const resp = await Vue.axios.post("/accounts/change-password/", data);
+      const resp = await Vue.axios.post(
+        "/accounts/current/change-password/",
+        data
+      );
+      let objResp = ApiService.getSuccessData(resp);
+      return objResp.data;
+    } catch (err) {
+      return ApiService.getErrorData(err);
+    }
+  },
+  async deleteAccount() {
+    ApiService.setAuthorizationHeader();
+    try {
+      const resp = await Vue.axios.delete("/accounts/current/");
       let objResp = ApiService.getSuccessData(resp);
       return objResp.data;
     } catch (err) {

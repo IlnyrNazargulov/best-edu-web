@@ -41,53 +41,29 @@
               />
             </CCol>
           </CRow>
-          <hr class="d-sm-down-none mb-0" />
-          <CRow class="row mb-3 justify-content-md-center">
-            <CCol
-              col="6"
-              sm="4"
-              md="2"
-              xl
-              class="text-center mt-3 d-flex align-items-stretch"
+          <hr />
+          <div class="mb-3 d-flex flex-nowrap">
+            <CButton class="mr-3" color="primary" @click.prevent="goBack">
+              Вернуться к списку дисциплин
+            </CButton>
+            <CButton
+              class="mr-3"
+              color="primary"
+              @click.prevent="editDiscipline"
             >
-              <CButton color="primary" @click.prevent="goBack">
-                Вернуться к списку дисциплин
-              </CButton>
-            </CCol>
-            <CCol
-              col="6"
-              sm="4"
-              md="2"
-              xl
-              class="text-center mt-3 d-flex align-items-stretch"
+              Обновить дисциплину
+            </CButton>
+            <CButton
+              class="mr-3"
+              color="primary"
+              @click.prevent="deleteDiscipline"
             >
-              <CButton color="primary" @click.prevent="editDiscipline">
-                Обновить дисциплину
-              </CButton>
-            </CCol>
-            <CCol
-              col="6"
-              sm="4"
-              md="2"
-              xl
-              class="text-center mt-3 d-flex align-items-stretch"
-            >
-              <CButton color="primary" @click.prevent="deleteDiscipline">
-                Удалить дисциплину навсегда
-              </CButton>
-            </CCol>
-            <CCol
-              col="6"
-              sm="4"
-              md="2"
-              xl
-              class="text-center mt-3 d-flex align-items-stretch"
-            >
-              <CButton color="primary" @click.prevent="addExercise">
-                Добавить занятие
-              </CButton>
-            </CCol>
-          </CRow>
+              Удалить дисциплину навсегда
+            </CButton>
+            <CButton class="mr-3" color="primary" @click.prevent="addExercise">
+              Добавить занятие
+            </CButton>
+          </div>
 
           <CDataTable
             hover

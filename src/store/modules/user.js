@@ -2,6 +2,11 @@ import {
   REGISTER_TEACHER,
   FIND_TEACHERS,
   RESET_PASSWORD,
+  GET_ACCOUNT,
+  UPDATE_ACCOUNT,
+  CHANGE_PASSWORD,
+  DELETE_ACCOUNT,
+  AUTH_LOGOUT,
 } from "@/store/actions.type";
 import { AccountService } from "@/utils/account.service";
 
@@ -24,6 +29,23 @@ const actions = {
   async [RESET_PASSWORD]({ commit }, password) {
     await AccountService.resetPassword(password);
     commit("resetRequestCodeState");
+  },
+  async [GET_ACCOUNT]({ commit }, id) {
+    if (id == null) {
+      return await AccountService.getCurrentAccount();
+    } else {
+      return await AccountService.getTeacherById(id);
+    }
+  },
+  async [UPDATE_ACCOUNT]({ commit }, account) {
+    return await AccountService.updateAccount(account);
+  },
+  async [CHANGE_PASSWORD]({ commit }, password) {
+    await AccountService.changePassword(password);
+  },
+  async [DELETE_ACCOUNT]({ dispatch }) {
+    await AccountService.deleteAccount();
+    dispatch(AUTH_LOGOUT);
   },
 };
 

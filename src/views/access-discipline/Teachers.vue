@@ -24,6 +24,7 @@
         :fields="fields"
         :items-per-page="10"
         clickable-rows
+        @row-clicked="rowClicked"
         :active-page="activePage"
         :pagination="{ doubleArrows: false, align: 'center' }"
         @page-change="pageChange"
@@ -77,6 +78,11 @@ export default {
     },
     pageChange(val) {
       this.$router.push({ query: { page: val } });
+    },
+    rowClicked(item, index) {
+      this.$router.push({
+        path: `/profile/${item.id}`,
+      });
     },
   },
 };
