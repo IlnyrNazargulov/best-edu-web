@@ -164,8 +164,6 @@ export default {
   },
   computed: {
     isMyAccount() {
-      console.log(this.paramAccountId);
-      console.log(this.$store.state.user.accountId);
       return (
         this.$store.state.user.account.id == this.paramAccountId ||
         this.paramAccountId == null

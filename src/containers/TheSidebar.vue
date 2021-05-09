@@ -5,7 +5,7 @@
     :show="show"
     @update:show="(value) => $store.commit('set', ['sidebarShow', value])"
   >
-    <CSidebarBrand class="d-md-down-none" to="/">
+    <CSidebarBrand class="d-md-down-none" to="/disciplines">
       <img
         class="c-sidebar-brand-full m-2"
         size="custom-size"
@@ -23,10 +23,6 @@
     </CSidebarBrand>
 
     <CRenderFunction flat :content-to-render="$options.nav" />
-    <CSidebarMinimizer
-      class="d-md-down-none"
-      @click.native="$store.commit('set', ['sidebarMinimize', !minimize])"
-    />
   </CSidebar>
 </template>
 
