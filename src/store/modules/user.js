@@ -18,6 +18,10 @@ const getDefaultState = () => {
 
 const state = getDefaultState();
 
+const getters = {
+  isTeacher: (state) => state.account.role == "ROLE_TEACHER",
+};
+
 const actions = {
   async [REGISTER_TEACHER]({ commit }, userInfo) {
     const resp = await AccountService.registerTeacher(userInfo);
@@ -59,6 +63,7 @@ const mutations = {
 };
 
 export default {
+  getters,
   state,
   actions,
   mutations,

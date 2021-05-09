@@ -153,13 +153,13 @@ export default {
       });
     },
     getFullName() {
-      return (
-        this.account.secondName +
-        " " +
-        this.account.firstName +
-        " " +
-        this.account.patronymic
-      );
+      return [
+        this.account.secondName,
+        this.account.firstName,
+        this.account.patronymic,
+      ]
+        .filter(Boolean)
+        .join(" ");
     },
   },
   computed: {
