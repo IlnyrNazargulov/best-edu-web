@@ -72,13 +72,13 @@ function configRoutes() {
               component: Profile,
             },
             {
-              path: ":accountId",
-              component: Profile,
-            },
-            {
               path: "change-password",
               name: "Смена пароля",
               component: ChangePassword,
+            },
+            {
+              path: ":accountId",
+              component: Profile,
             },
           ],
         },
