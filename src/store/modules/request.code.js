@@ -33,7 +33,7 @@ const actions = {
       throw err;
     }
   },
-  async [VERIFY_CODE]({ commit, dispatch }, user) {
+  async [VERIFY_CODE]({ commit }, user) {
     commit("setStatus", "VERIFYING");
     try {
       const data = await RequestCodeService.verifyCode(user.email, user.code);
@@ -44,7 +44,7 @@ const actions = {
       throw error;
     }
   },
-  [CHANGE_EMAIL]: ({ commit, dispatch }) => {
+  [CHANGE_EMAIL]: ({ commit }) => {
     commit("setStatus", "ENTER_EMAIL");
   },
   resetState({ commit }) {

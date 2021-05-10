@@ -107,7 +107,7 @@ export default {
     };
   },
   async created() {
-    this.findExercise();
+    await this.findExercise();
     setTimeout(() => {
       this.simplemde.togglePreview();
     }, 250);
