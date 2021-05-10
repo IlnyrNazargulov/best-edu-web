@@ -10,6 +10,7 @@ export const CHANGE_EMAIL = "CHANGE_EMAIL";
 
 //users
 export const REGISTER_TEACHER = "REGISTER_TEACHER";
+export const REGISTER_STUDENT = "REGISTER_STUDENT";
 export const FIND_TEACHERS = "FIND_TEACHERS";
 export const RESET_PASSWORD = "RESET_PASSWORD";
 export const GET_ACCOUNT = "GET_ACCOUNT";

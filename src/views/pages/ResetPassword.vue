@@ -102,9 +102,6 @@ export default {
     emailStatus() {
       return this.$store.state.requestCode.status;
     },
-    emailErrorMessage() {
-      return this.$store.state.requestCode.errorMessage;
-    },
     stageNumber() {
       if (
         this.emailStatus == "ENTER_EMAIL" ||

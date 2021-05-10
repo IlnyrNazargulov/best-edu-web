@@ -76,9 +76,8 @@ export const AccountService = {
     }
   },
   async registerStudent(info) {
-    ApiService.setAuthorizationHeader();
+    ApiService.setAuthorizationHeader(JwtService.getEmailToken());
     const data = {
-      login: info.login,
       plainPassword: info.plainPassword,
       secondName: info.secondName,
       firstName: info.firstName,

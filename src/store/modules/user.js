@@ -7,6 +7,7 @@ import {
   CHANGE_PASSWORD,
   DELETE_ACCOUNT,
   AUTH_LOGOUT,
+  REGISTER_STUDENT,
 } from "@/store/actions.type";
 import { AccountService } from "@/utils/account.service";
 
@@ -25,6 +26,10 @@ const getters = {
 const actions = {
   async [REGISTER_TEACHER]({ commit }, userInfo) {
     const resp = await AccountService.registerTeacher(userInfo);
+    AccountService.saveAccount(resp.account);
+  },
+  async [REGISTER_STUDENT]({ commit }, userInfo) {
+    const resp = await AccountService.registerStudent(userInfo);
     AccountService.saveAccount(resp.account);
   },
   async [FIND_TEACHERS]({ commit }, filter) {
@@ -50,6 +55,9 @@ const actions = {
   async [DELETE_ACCOUNT]({ dispatch }) {
     await AccountService.deleteAccount();
     dispatch(AUTH_LOGOUT);
+  },
+  resetState({ commit }) {
+    commit("resetState");
   },
 };
 

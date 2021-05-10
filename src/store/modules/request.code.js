@@ -6,51 +6,49 @@ import { JwtService } from "@/utils/jwt.service";
 const getDefaultState = () => {
   return {
     status: EmailStatus.ENTER_EMAIL,
-    errorMessage: "",
     timeout: 0,
   };
 };
 
 const state = getDefaultState();
 
-const emailErrorMessages = {
-  INVALID_CODE: "Неправильный код",
-};
-
 const getters = {
   emailStatus: (state) => state.status,
-  emailErrorMessage: (state) =>
-    state.errorMessage != ""
-      ? state.errorMessage
-      : "Код можно отправить через " + state.timeout + " секунд.",
+  timeout: (state) => state.timeout,
 };
 
 const actions = {
-  async [SEND_CODE]({ commit, dispatch }, email) {
-    commit(EmailStatus.SENDING);
-    const resp = await RequestCodeService.sendCode(email);
-    if (!resp.isSuccess) {
-      commit(EmailStatus.SEND_FAIL, resp.data.timeout);
-    } else {
-      commit(EmailStatus.SEND, resp.data.timeout);
+  async [SEND_CODE]({ commit }, email) {
+    commit("setStatus", "SENDING");
+    try {
+      const resp = await RequestCodeService.sendCode(email);
+      if (!resp.isSuccess) {
+        commit("setStatus", "SEND_FAIL");
+      } else {
+        commit("setStatus", "SEND");
+      }
+      commit("setTimeout", resp.data.timeout);
+    } catch (err) {
+      commit("setStatus", "SEND_FAIL");
+      throw err;
     }
   },
   async [VERIFY_CODE]({ commit, dispatch }, user) {
-    commit(EmailStatus.VERIFYING);
+    commit("setStatus", "VERIFYING");
     try {
       const data = await RequestCodeService.verifyCode(user.email, user.code);
       JwtService.saveEmailToken(data.access_token);
-      commit(EmailStatus.VERIFY);
-    } catch (err) {
-      let errorMessage = emailErrorMessages[err.errorCode];
-      if (errorMessage === undefined) {
-        errorMessage = "Неизвестная ошибка";
-      }
-      commit(EmailStatus.VERIFY_ERROR, errorMessage);
+      commit("setStatus", "VERIFY");
+    } catch (error) {
+      commit("setStatus", "VERIFY_ERROR");
+      throw error;
     }
   },
   [CHANGE_EMAIL]: ({ commit, dispatch }) => {
-    commit(EmailStatus.ENTER_EMAIL);
+    commit("setStatus", "ENTER_EMAIL");
+  },
+  resetState({ commit }) {
+    commit("resetRequestCodeState");
   },
 };
 
@@ -58,35 +56,11 @@ const mutations = {
   resetRequestCodeState(state) {
     Object.assign(state, getDefaultState());
   },
-  [EmailStatus.SENDING]: (state) => {
-    state.status = EmailStatus.SENDING;
-    state.errorMessage = "";
-  },
-  [EmailStatus.SEND]: (state, timeout) => {
-    state.status = EmailStatus.SEND;
+  setTimeout(state, timeout) {
     state.timeout = timeout;
-    state.errorMessage = "";
   },
-  [EmailStatus.SEND_FAIL]: (state, timeout) => {
-    state.status = EmailStatus.SEND_FAIL;
-    state.timeout = timeout;
-    state.errorMessage = "";
-  },
-  [EmailStatus.VERIFYING]: (state) => {
-    state.status = EmailStatus.VERIFYING;
-    state.errorMessage = "";
-  },
-  [EmailStatus.VERIFY]: (state) => {
-    state.status = EmailStatus.VERIFY;
-    state.errorMessage = "";
-  },
-  [EmailStatus.VERIFY_ERROR]: (state, errorMessage) => {
-    state.status = EmailStatus.VERIFY_ERROR;
-    state.errorMessage = errorMessage;
-  },
-  [EmailStatus.ENTER_EMAIL]: (state) => {
-    state.status = EmailStatus.ENTER_EMAIL;
-    state.errorMessage = "";
+  setStatus(state, status) {
+    state.status = status;
   },
 };
 

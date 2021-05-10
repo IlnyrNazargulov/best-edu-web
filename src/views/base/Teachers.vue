@@ -53,7 +53,7 @@ export default {
       teachers: [],
       teacherNameFilter: "",
       fields: [
-        { key: "id", label: "Ид" },
+        { key: "id", label: "Id" },
         { key: "fullName", label: "ФИО" },
         { key: "countDisciplines", label: "Количество дисциплин" },
       ],

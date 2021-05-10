@@ -115,7 +115,7 @@ export default {
       });
     },
     rowClicked(item, index) {
-      this.$router.push({ path: `disciplines/${item.id}` });
+      this.$router.push({ path: `/disciplines/${item.id}` });
     },
     pageChange(val) {
       this.$router.push({ query: { page: val } });

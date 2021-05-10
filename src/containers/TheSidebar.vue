@@ -42,6 +42,7 @@
         name="Доступ к дисциплине"
         icon="cilLockUnlocked"
         to="/access-discipline"
+        v-show="isTeacher"
       />
       <CSidebarNavItem name="Мой профиль" icon="cilInfo" to="/profile" />
       <CSidebarNavItem
