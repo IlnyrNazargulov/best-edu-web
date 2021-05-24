@@ -47,7 +47,7 @@
                           color="primary"
                           class="px-4"
                           @click.prevent="login"
-                          >Login</CButton
+                          >Вход</CButton
                         >
                       </CCol>
                       <CCol col="6" class="text-right">
@@ -77,7 +77,7 @@
                 <CCardBody>
                   <h2>Регистрация</h2>
                   <p>
-                    Пройдите регистрацию чтобы использовать систему BEST-EDU.
+                    Пройдите регистрацию чтобы использовать систему Best-edu.
                   </p>
                   <CButton
                     @click.prevent="goToRegistration"

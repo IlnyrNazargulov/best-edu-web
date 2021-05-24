@@ -16,7 +16,7 @@
           <CCard class="mx-4 mb-0">
             <CCardBody class="p-4">
               <CForm>
-                <h1>Регистрация в системе BEST-EDU</h1>
+                <h1>Регистрация в системе Best-edu</h1>
                 <div v-show="stageNumber == 'STAGE_1'">
                   <p class="text-muted">Введите свою почту</p>
                   <CInput
