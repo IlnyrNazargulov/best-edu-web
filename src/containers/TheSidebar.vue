@@ -45,12 +45,6 @@
         v-show="isTeacher"
       />
       <CSidebarNavItem name="Мой профиль" icon="cilInfo" to="/profile" />
-      <CSidebarNavItem
-        name="Скачать настольный клиент"
-        v-bind:icon="downloadIcon"
-        class="bg-success text-white"
-        to="/"
-      />
     </CSidebarNav>
 
     <!-- <CRenderFunction flat :content-to-render="$options.nav" /> -->
